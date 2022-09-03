@@ -42,7 +42,7 @@ yarn start
 y dejar en ejecución
 
 ### app
-Configurar el .env, el port es el puerto que quedará en escucha, el api_url es la dirección que entrega el comando yarn start del proyecto api
+Configurar el .env, el PORT es el puerto que quedará en escucha, el REACT_APP_URL es la dirección que entrega el comando yarn start del proyecto api
 
 luego de tener el .env configurado y guardado ejecutar los siguientes comandos
 ```bash
