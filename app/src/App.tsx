@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 
+const api_url = process.env.REACT_APP_URL;
+
+
 interface Person {
   name: string;
   lastname: string;
@@ -8,6 +11,7 @@ interface Person {
 }
 
 export const App = () => {
+
   const [data, setData] = useState({ message: "" });
   const [countData, setCount] = useState<{ count: number } | null>();
   const [newUserData, setNewUserData] = useState<Person>({
@@ -21,7 +25,7 @@ export const App = () => {
   const callHelloWorld = async () => {
     axios({
       method: "get",
-      url: "http://localhost:4000",
+      url: `${api_url}`,
       responseType: "json",
     }).then(function (response) {
       setData(response.data);
@@ -31,7 +35,7 @@ export const App = () => {
   const callPersonsCount = async () => {
     axios({
       method: "get",
-      url: "http://localhost:4000/persons/count",
+      url: `${api_url}/persons/count`,
       responseType: "json",
     }).then(function (response) {
       setCount(response.data);
@@ -39,7 +43,7 @@ export const App = () => {
   };
 
   const callAddPerson = async ({ name, lastname, age }: Person) => {
-    const url = `http://localhost:4000/persons/add?name=${name}&lastname=${lastname}&age=${age}`;
+    const url = `${api_url}/persons/add?name=${name}&lastname=${lastname}&age=${age}`;
 
     axios({
       method: "get",
@@ -51,7 +55,7 @@ export const App = () => {
   };
 
   const callGetPerson = async (id: string) => {
-    const url = `http://localhost:4000/persons/get?id=${id}`;
+    const url = `${api_url}/persons/get?id=${id}`;
 
     axios({
       method: "get",
@@ -66,7 +70,6 @@ export const App = () => {
     <div>
       <div>
         <h2>Hello World Smart Contract</h2>
-
         {data && <h3>Respuesta: {data.message}</h3>}
         <button
           onClick={async (e) => {
