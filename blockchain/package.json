@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A boilerplate to create EVM based smart contracts",
   "main": "index.js",
-  "author": "Carlos Cosming",
+  "author": "Carlos Cosming | Alfonso Alamos | Camilo Orellana",
   "license": "MIT",
   "private": true,
   "scripts": {

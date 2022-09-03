@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "DApp API",
   "main": "main.js",
-  "author": "Carlos Cosming",
+  "author": "Carlos Cosming | Alfonso Alamos | Camilo Orellana",
   "license": "MIT",
   "private": true,
   "scripts": {
