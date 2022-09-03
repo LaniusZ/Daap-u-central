@@ -14,7 +14,8 @@ coverage
 coverage.json
 
 # production
-/build
+app/build
+api/dist
 
 # misc
 .DS_Store
