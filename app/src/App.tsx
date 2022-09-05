@@ -27,6 +27,7 @@ export const App = () => {
     graduationYear: "0"
   });
   const [id, setId] = useState<string>("0");
+  const [personId, setPersonId] = useState<string>();
   const [currentPerson, setCurrentPerson] = useState<Person>();
 
   const callHelloWorld = async () => {
@@ -74,7 +75,12 @@ export const App = () => {
       url,
       responseType: "json",
     }).then(function (response) {
-      callPersonsCount();
+      if (!response.data.status) {
+        alert (response.data.message);
+      } else {
+        setPersonId(response.data.person);
+        callPersonsCount();
+      }
     });
   };
 
@@ -187,6 +193,14 @@ export const App = () => {
           >
             Add person
           </button>
+
+          {personId && (
+          <div>
+            <p>
+              <strong>UUID:</strong> {personId}
+            </p>
+          </div>
+          )}
         </div>
 
         <hr />
