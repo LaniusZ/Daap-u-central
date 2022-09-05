@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { v4 as uuid } from 'uuid';
 import express, { Express, Request, Response } from "express";
 import { getDigitalIdentityContract, getHelloWorldContract } from "./contract";
 
@@ -32,28 +33,52 @@ app.get("/persons/count", async (req: Request, res: Response) => {
 
 app.get("/persons/add", async (req: Request, res: Response) => {
   const contract = getDigitalIdentityContract();
-
+/*
   await contract.addPerson(
     req.query.name as string,
     req.query.lastname as string,
-    Number(req.query.age)
+    Number(req.query.age),
+    req.query.id as string
   );
+*/
+  const id: string = uuid();
+
+  console.log('Your UUID is: ' + id);
 
   res.json({
-    result: true,
+    result: id,
   });
 });
 
 app.get("/persons/get", async (req: Request, res: Response) => {
-  const contract = getDigitalIdentityContract();
+  try{
+    const contract = getDigitalIdentityContract();
 
-  const person = await contract.getPerson(Number(req.query.id));
+    let id = "";
 
-  res.json({
-    name: person[1],
-    lastname: person[2],
-    age: person[3].toNumber(),
-  });
+    if (req.query.id != undefined) {
+      id = req.query.id.toString();
+    }
+
+    const person = await contract.getPerson(id);
+
+    if (person[0].length > 0){
+    res.json({
+      status: true,
+      name: person[1],
+      lastname: person[2]
+    });
+  } else {
+    res.json({
+      status: false,
+      message: "Titulo no encontrado"
+    });
+  }
+  } catch {
+    res.json({
+      status: false
+    });
+  }
 });
 
 app.listen(port, () => {
