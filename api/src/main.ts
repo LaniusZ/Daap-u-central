@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import { v4 as uuid } from 'uuid';
 import express, { Express, Request, Response } from "express";
 import { getDigitalIdentityContract, getHelloWorldContract } from "./contract";
+import {  validate, clean, format, getCheckDigit } from 'rut.js'
+
 
 dotenv.config();
 
@@ -32,18 +34,29 @@ app.get("/persons/count", async (req: Request, res: Response) => {
 });
 
 app.get("/persons/add", async (req: Request, res: Response) => {
-  const contract = getDigitalIdentityContract();
-/*
+  
+  /*const contract = getDigitalIdentityContract();
+
   await contract.addPerson(
+    req.query.id as string,
     req.query.name as string,
-    req.query.lastname as string,
-    Number(req.query.age),
-    req.query.id as string
-  );
-*/
+    req.query.lastnamefather as string,
+    req.query.lastnamemother as string,
+    Number(req.query.run),
+    req.query.dv as string,
+    req.query.career as string,
+    Number(req.query.graduationyear)
+  );*/
+
   const id: string = uuid();
 
   console.log('Your UUID is: ' + id);
+  console.log('Your rut is: ' + validate("169485208"));
+  console.log('Your rut is: ' + validate("16948520-8"));
+  console.log('Your rut is: ' + validate("169485209"));
+  console.log('Your rut is: ' + validate("16948520-9"));
+
+  
 
   res.json({
     result: id,
