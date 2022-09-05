@@ -5,8 +5,12 @@ const api_url = process.env.REACT_APP_URL;
 
 interface Person {
   name: string;
-  lastname: string;
-  age: string;
+  lastnameFather: string;
+  lastnameMother: string;
+  run: string;
+  dv: string;
+  career: string;
+  graduationYear: string;
 }
 
 export const App = () => {
@@ -15,8 +19,12 @@ export const App = () => {
   const [countData, setCount] = useState<{ count: number } | null>();
   const [newUserData, setNewUserData] = useState<Person>({
     name: "",
-    lastname: "",
-    age: "0",
+    lastnameFather: "",
+    lastnameMother: "",
+    run: "",
+    dv: "",
+    career: "",
+    graduationYear: "0"
   });
   const [id, setId] = useState<string>("0");
   const [currentPerson, setCurrentPerson] = useState<Person>();
@@ -41,8 +49,25 @@ export const App = () => {
     });
   };
 
-  const callAddPerson = async ({ name, lastname, age }: Person) => {
-    const url = `${api_url}/persons/add?name=${name}&lastname=${lastname}&age=${age}`;
+  const callAddPerson = async (
+    { 
+      name,
+      lastnameFather,
+      lastnameMother,
+      run,
+      dv,
+      career,
+      graduationYear
+    } : Person) => {
+
+    let url = `${api_url}/persons/add`;
+    url += `?name=${name}`;
+    url += `&lastnamefather=${lastnameFather}`;
+    url += `&lastnamemother=${lastnameMother}`;
+    url += `&run=${run}`;
+    url += `&dv=${dv}`;
+    url += `&career=${career}`;
+    url += `&graduationYear=${graduationYear}`;
 
     axios({
       method: "get",
@@ -114,16 +139,44 @@ export const App = () => {
           />
           <input
             type="text"
-            placeholder="Lastname"
+            placeholder="Lastname Father"
             onChange={(e) =>
-              setNewUserData({ ...newUserData, lastname: e.target.value })
+              setNewUserData({ ...newUserData, lastnameFather: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="Lastname Mother"
+            onChange={(e) =>
+              setNewUserData({ ...newUserData, lastnameMother: e.target.value })
             }
           />
           <input
             type="number"
-            placeholder="Age"
+            placeholder="run"
             onChange={(e) =>
-              setNewUserData({ ...newUserData, age: e.target.value })
+              setNewUserData({ ...newUserData, run: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="DV"
+            onChange={(e) =>
+              setNewUserData({ ...newUserData, dv: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="career"
+            onChange={(e) =>
+              setNewUserData({ ...newUserData, career: e.target.value })
+            }
+          />
+          <input
+            type="number"
+            placeholder="Graduation Year"
+            onChange={(e) =>
+              setNewUserData({ ...newUserData, graduationYear: e.target.value })
             }
           />
           <button
@@ -148,10 +201,19 @@ export const App = () => {
                 <strong>Name:</strong> {currentPerson.name}
               </p>
               <p>
-                <strong>Lastname:</strong> {currentPerson.lastname}
+                <strong>Lastname Father:</strong> {currentPerson.lastnameFather}
               </p>
               <p>
-                <strong>Age:</strong> {currentPerson.age}
+                <strong>Lastname Mother:</strong> {currentPerson.lastnameMother}
+              </p>
+              <p>
+                <strong>Run:</strong> {currentPerson.run} - {currentPerson.dv}
+              </p>
+              <p>
+                <strong>Career:</strong> {currentPerson.career}
+              </p>
+              <p>
+                <strong>Graduation Year:</strong> {currentPerson.graduationYear}
               </p>
             </div>
           )}
