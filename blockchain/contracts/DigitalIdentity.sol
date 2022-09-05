@@ -12,7 +12,7 @@ contract DigitalIdentity {
         int run;
         string dv;
         string career;
-        uint graduationYear;
+        int graduationYear;
     }
 
     uint personsCount;
@@ -30,8 +30,9 @@ contract DigitalIdentity {
         int _run, 
         string memory _dv,
         string memory _career,
-        uint _graduationYear)
+        int _graduationYear)
         public {
+
 
         require(bytes(_id).length > 0, "Id must be upper 0");
         require(bytes(_name).length > 0, "Name cannot be left empty");

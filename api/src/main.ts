@@ -75,30 +75,32 @@ app.get("/persons/add", async (req: Request, res: Response) => {
       });
     } else {
       const contract = getDigitalIdentityContract();
-      const id: string = uuid();
-/*
+      const id = uuid();
+
       await contract.addPerson(
-        id as string,
+        id,
         req.query.name as string,
         req.query.lastnamefather as string,
         req.query.lastnamemother as string,
         Number(req.query.run),
         req.query.dv as string,
         req.query.career as string,
-        Number(req.query.graduationyear)
-      );*/
-      
+        Number(req.query.graduationYear)
+      );
+
       res.json({
         status: isValid,
         person: id
       });
     }
 
-  } catch {
+  } catch (error) {
     res.json({
       status: false,
       message: "Error desconocido"
     });
+
+    console.log(error);
   }
 
 });
@@ -127,11 +129,13 @@ app.get("/persons/get", async (req: Request, res: Response) => {
         message: "Titulo no encontrado"
       });
     }
-  } catch {
+  }  catch (error) {
     res.json({
       status: false,
       message: "Error desconocido"
     });
+
+    console.log(error);
   }
 });
 
