@@ -2,8 +2,7 @@ import dotenv from "dotenv";
 import { v4 as uuid } from 'uuid';
 import express, { Express, Request, Response } from "express";
 import { getDigitalIdentityContract, getHelloWorldContract } from "./contract";
-import {  validate, clean, format, getCheckDigit } from 'rut.js'
-
+import {  validate, clean, format, getCheckDigit } from 'rut.js';
 
 dotenv.config();
 
@@ -34,33 +33,74 @@ app.get("/persons/count", async (req: Request, res: Response) => {
 });
 
 app.get("/persons/add", async (req: Request, res: Response) => {
-  
-  /*const contract = getDigitalIdentityContract();
 
-  await contract.addPerson(
-    req.query.id as string,
-    req.query.name as string,
-    req.query.lastnamefather as string,
-    req.query.lastnamemother as string,
-    Number(req.query.run),
-    req.query.dv as string,
-    req.query.career as string,
-    Number(req.query.graduationyear)
-  );*/
+  try {
+    let isValid = true;
+    let message = "";
 
-  const id: string = uuid();
+    if (!req.query.name){
+      isValid = false;
+      message = "Name cannot be left empty";
+    }
 
-  console.log('Your UUID is: ' + id);
-  console.log('Your rut is: ' + validate("169485208"));
-  console.log('Your rut is: ' + validate("16948520-8"));
-  console.log('Your rut is: ' + validate("169485209"));
-  console.log('Your rut is: ' + validate("16948520-9"));
+    if (!req.query.lastnamefather){
+      isValid = false;
+      message = "Lastname of Father cannot be left empty";
+    }
 
-  
+    if (!req.query.lastnamemother){
+      isValid = false;
+      message = "Lastname of Mother cannot be left empty";
+    }
 
-  res.json({
-    result: id,
-  });
+    if (!req.query.run || !req.query.dv || !validate(req.query.run?.toString() + req.query.dv?.toString())){
+      isValid = false;
+      message = "run is invalid";
+    }
+
+    if (!req.query.career){
+      isValid = false;
+      message = "Career cannot be left empty";
+    }
+
+    if (Number(req.query.graduationYear) < 1900){
+      isValid = false;
+      message = "Graduation year must be upper 1900";
+    }
+
+    if (!isValid){
+      res.json({
+        status: isValid,
+        message: message
+      });
+    } else {
+      const contract = getDigitalIdentityContract();
+      const id: string = uuid();
+/*
+      await contract.addPerson(
+        id as string,
+        req.query.name as string,
+        req.query.lastnamefather as string,
+        req.query.lastnamemother as string,
+        Number(req.query.run),
+        req.query.dv as string,
+        req.query.career as string,
+        Number(req.query.graduationyear)
+      );*/
+      
+      res.json({
+        status: isValid,
+        person: id
+      });
+    }
+
+  } catch {
+    res.json({
+      status: false,
+      message: "Error desconocido"
+    });
+  }
+
 });
 
 app.get("/persons/get", async (req: Request, res: Response) => {
@@ -76,20 +116,21 @@ app.get("/persons/get", async (req: Request, res: Response) => {
     const person = await contract.getPerson(id);
 
     if (person[0].length > 0){
-    res.json({
-      status: true,
-      name: person[1],
-      lastname: person[2]
-    });
-  } else {
-    res.json({
-      status: false,
-      message: "Titulo no encontrado"
-    });
-  }
+      res.json({
+        status: true,
+        name: person[1],
+        lastname: person[2]
+      });
+    } else {
+      res.json({
+        status: false,
+        message: "Titulo no encontrado"
+      });
+    }
   } catch {
     res.json({
-      status: false
+      status: false,
+      message: "Error desconocido"
     });
   }
 });
