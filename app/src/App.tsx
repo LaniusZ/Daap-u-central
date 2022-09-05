@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const api_url = process.env.REACT_APP_URL;
 
-
 interface Person {
   name: string;
   lastname: string;
@@ -62,7 +61,12 @@ export const App = () => {
       url,
       responseType: "json",
     }).then(function (response) {
-      setCurrentPerson(response.data);
+      if(response.data.status) {
+        setCurrentPerson(response.data);
+      } else {
+        alert(response.data.message);
+      }
+
     });
   };
 
@@ -153,7 +157,7 @@ export const App = () => {
           )}
 
           <input
-            type="number"
+            type="string"
             placeholder="ID"
             onChange={(e) => setId(e.target.value)}
           />
