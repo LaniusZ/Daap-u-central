@@ -144,6 +144,39 @@ app.get("/persons/get", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/persons/validate", async (req: Request, res: Response) => {
+  try{
+    const contract = getDigitalIdentityContract();
+
+    let id = "";
+
+    if (req.query.id != undefined) {
+      id = req.query.id.toString();
+    }
+
+    const person = await contract.getPerson(id);
+
+    if (person[0].length > 0){
+      res.json({
+        status: true,
+        message: "Titulo valido"
+      });
+    } else {
+      res.json({
+        status: false,
+        message: "Titulo no encontrado"
+      });
+    }
+  }  catch (error) {
+    res.json({
+      status: false,
+      message: "Error desconocido"
+    });
+
+    console.log(error);
+  }
+});
+
 app.listen(port, () => {
   console.log(
     `⚡️[server]: DApp API Server is running at http://localhost:${port}`

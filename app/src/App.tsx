@@ -83,7 +83,7 @@ export const App = () => {
       }
     });
   };
-
+  
   const callGetPerson = async (id: string) => {
     const url = `${api_url}/persons/get?id=${id}`;
 
@@ -94,6 +94,23 @@ export const App = () => {
     }).then(function (response) {
       if(response.data.status) {
         setCurrentPerson(response.data);
+      } else {
+        alert(response.data.message);
+      }
+
+    });
+  };
+
+  const callValidatePerson = async (id: string) => {
+    const url = `${api_url}/persons/validate?id=${id}`;
+
+    axios({
+      method: "get",
+      url,
+      responseType: "json",
+    }).then(function (response) {
+      if(response.data.status) {
+        alert(response.data.message);
       } else {
         alert(response.data.message);
       }
@@ -244,6 +261,15 @@ export const App = () => {
             }}
           >
             Get person
+          </button>
+
+          <button
+            onClick={async (e) => {
+              e.preventDefault();
+              await callValidatePerson(id);
+            }}
+          >
+            Validate person
           </button>
         </div>
       </div>
