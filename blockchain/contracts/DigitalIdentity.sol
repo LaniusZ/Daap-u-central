@@ -1,31 +1,61 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.9;
 
+import "hardhat/console.sol";
+
 contract DigitalIdentity {
     struct Person {
-        uint id;
+        string id;
         string name;
-        string lastname;
-        uint age;
+        string lastnameFather;
+        string lastnameMother;
+        int run;
+        string dv;
+        string career;
+        uint graduationYear;
     }
 
     uint personsCount;
-    mapping (uint => Person) public persons;
+    mapping (string => Person) public persons;
 
     constructor()  {
         personsCount = 0;
     }
 
-    function addPerson(string memory _name, string memory _lastname, uint _age) public {
-        require(bytes(_name).length > 0, "First name cannot be left empty");
-        require(bytes(_lastname).length > 0, "Lastname cannot be left empty");
-        require(_age > 18, "Age must be upper 18");
+    function addPerson(
+        string memory _id,
+        string memory _name, 
+        string memory _lastnameFather,
+        string memory _lastnameMother,
+        int _run, 
+        string memory _dv,
+        string memory _career,
+        uint _graduationYear)
+        public {
 
-        persons[personsCount] = Person(personsCount, _name, _lastname, _age);
+        require(bytes(_id).length > 0, "Id must be upper 0");
+        require(bytes(_name).length > 0, "First name cannot be left empty");
+        require(bytes(_lastnameFather).length > 0, "Lastname of Father cannot be left empty");
+        require(bytes(_lastnameMother).length > 0, "Lastname of Mother cannot be left empty");
+        require(_run > 0, "Age must be upper 0");
+        require(bytes(_dv).length > 0, "First name cannot be left empty");
+        require(bytes(_career).length > 0, "Career cannot be left empty");
+        require(_graduationYear > 1900, "Graduation year must be upper 1900");
+
+        persons[_id] = Person(
+        _id,
+        _name,
+        _lastnameFather,
+        _lastnameMother,
+        _run,
+        _dv,
+        _career,
+        _graduationYear);
+
         personsCount++;
     }
 
-    function getPerson(uint _id) public view returns(Person memory) {
+    function getPerson(string memory _id) public view returns(Person memory) {
         return persons[_id];
     }
 
