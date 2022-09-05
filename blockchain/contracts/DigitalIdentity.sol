@@ -34,10 +34,10 @@ contract DigitalIdentity {
         public {
 
         require(bytes(_id).length > 0, "Id must be upper 0");
-        require(bytes(_name).length > 0, "First name cannot be left empty");
+        require(bytes(_name).length > 0, "Name cannot be left empty");
         require(bytes(_lastnameFather).length > 0, "Lastname of Father cannot be left empty");
         require(bytes(_lastnameMother).length > 0, "Lastname of Mother cannot be left empty");
-        require(_run > 0, "Age must be upper 0");
+        require(_run > 0, "Run must be upper 0");
         require(bytes(_dv).length > 0, "First name cannot be left empty");
         require(bytes(_career).length > 0, "Career cannot be left empty");
         require(_graduationYear > 1900, "Graduation year must be upper 1900");
