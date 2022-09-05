@@ -121,7 +121,12 @@ app.get("/persons/get", async (req: Request, res: Response) => {
       res.json({
         status: true,
         name: person[1],
-        lastname: person[2]
+        lastnameFather: person[2],
+        lastnameMother: person[3],
+        run: person[4].toNumber(),
+        dv: person[5],
+        career: person[6],
+        graduationYear: person[7].toNumber()
       });
     } else {
       res.json({
